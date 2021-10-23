@@ -1,0 +1,82 @@
+let jsonData = {
+    "What is the task to resolve?": {
+        "Designing of Objects (CAD)": {
+            "What graphics do you work with?": {
+                "3D": {
+                    "Is there a need in a complex tool?": {
+                        "Yes": {
+                            "Do you need support of an alternative OS?": {
+                                "Yes": {
+                                    "Do you need russification?": {
+                                        "Yes": "Solid Works, Inventor, Компас",
+                                        "No": "CATIA"
+                                    }
+                                },
+                                "No": "Inventor, Компас"
+                            }
+                        },
+                        "No": {
+                            "Do you need to form specifications?": {
+                                "Yes": "bCAD",
+                                "No": "BRL-CAD, FreeCAD"
+                            }
+                        }
+                    }
+                },
+                "2D": {
+                    "Should the tool be free to use?": {
+                        "Yes": "LibreCAD",
+                        "No": {
+                            "Choose approximate cost": {
+                                "Less than 30,000 UAH": {
+                                    "Do you need support of an alternative OS?": {
+                                        "Yes": "QCad",
+                                        "No": {
+                                            "Do you need russification?": {
+                                                "Yes": "NanoCAD",
+                                                "No": "Inovate, IronCAD, Draft"
+                                            }
+                                        }
+                                    }
+                                },
+                                "More than 30,000 UAH": "Solid Works, Inventor, Компас"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Modeling of physical processes (CAE)": {
+            "Do you need a complex and universal tool?": {
+                "Yes": {
+                    "Do you need russification?": {
+                        "Yes": "Solid Works, Inventor",
+                        "No": {
+                            "Do you need an inexpensive tool?": {
+                                "Yes": "COMSOL, Multiphisycs",
+                                "No": "NX, CATIA, Abaqus FEA, ANSYS"
+                            }
+                        }
+                    }
+                },
+                "No": {
+                    "Do you need support of an alternative OS?": {
+                        "Yes": "Solid Works",
+                        "No": "CalculiX"
+                    }
+                }
+            }
+        },
+        "Designing of objects and physical processes (CAD/CAE)": {
+            "Do you need support of an alternative OS?": {
+                "Yes": "Solid Works",
+                "No": {
+                    "Do you need russification?": {
+                        "Yes": "Inventor, Компас",
+                        "No": "CATIA"
+                    }
+                }
+            }
+        }
+    }
+};

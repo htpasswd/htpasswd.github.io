@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./datasource.json"></script>
+</head>
+  <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.0.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<div class="container">
+  <div class="row align-items-center" style="height: calc(100vh - 66px)">
+    <div class="col-12">
+      <div class="tab-content" id="question-container">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+    <div class="footer-copyright text-center py-3">УДХТУ, 122 Комп’ютерні науки, 7-КНз:
+    <a href="">Радченко Дмитро Валерійович</a>
+    </div>
+
+</footer>
+<!-- Footer -->
+</body>
+</html>
+<script>
+    $('body').css({
+  'background-size': 'cover',
+  'min-height': '100vh'
+});
+let container = $('#question-container');
+var v = jsonData;
+var clicksHistory = '';
+
+rebuildQuestion();
+function rebuildQuestion() {
+    let i = 0;
+    if (JSON.stringify(v).startsWith("{")){
+        jQuery.each(v, function(question, answers) {
+            container.append('<div class="tab-pane fade" id="question-' + i + '" role="tabpanel" aria-labelledby="question-' + i + '-tab">' +
+                '<h2 class="text-center text-lobster">' + question + '</h2><br>' +
+                '</div>');
+            clicksHistory = clicksHistory + question + ' > ';
+            jQuery.each(answers, function(answer, nextquestions) {
+                $('#question-0').addClass('show active');
+                $('#question-' + i).append("<button class='btn btn-quiz btn-answer w-100 text-center text-md-left mb-3 p-5' value='" + JSON.stringify(nextquestions) + "'>" + answer + '</button>')
+            });
+            i = i + 1;
+        });
+
+        $('.btn-answer').click(function() {
+          let that = $(this);
+          clicksHistory = clicksHistory + $(this).text() + ' > ';
+          $('.btn-answer:visible').off('click');
+          let valeur = that.val();
+          let tabActive = $('.tab-pane.show.active');
+          that.animate({ color: "#ffffff" }, 1500);
+          v = JSON.parse(that.val());
+          $('#question-container').html("");
+          rebuildQuestion();
+        });
+    } else {
+        container.append('<div class="tab-pane fade" id="question-z" role="tabpanel" aria-labelledby="question-z-tab"><h5 style="text-align: center"><span>' 
+            + clicksHistory.substring(0, clicksHistory.length - 3) + '</span></h5></div>');
+            $('#question-z').addClass('show active');
+            $('#question-z').append('<hr><h2 class="text-center text-lobster">Result: ' + v + '</h2><br></div>');
+            $('#question-z').append('<center><a href="">Start Again</a></center>');
+    }
+}
+</script>

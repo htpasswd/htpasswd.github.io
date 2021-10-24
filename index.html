@@ -19,13 +19,62 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Tools Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" data-html="true">
+        <p><b>SolidWorks</b> is a solid modeling computer-aided design (CAD) and computer-aided engineering (CAE) computer program published by Dassault Systèmes, that runs primarily on Microsoft Windows. While it is possible to run SolidWorks on an Intel-based Mac with Windows installed, the application's developer recommends against this. SolidWorks does not support macOS.</p>
+        <p>According to the publisher, over two million engineers and designers at more than 165,000 companies were using SolidWorks as of 2013. Also, according to the company, fiscal year 2011–12 revenue for SolidWorks totaled $483 million.</p>
+        <br />
+        <p>Official Website: <a href="https://www.solidworks.com/" target="_blank">SolidWorks</a></p>
+        <hr>
+        <p><b>Autodesk Inventor</b> Inventor allows 2D and 3D data integration in a single environment, creating a virtual representation of the final product that enables users to validate the form, fit, and function of the product before it is ever built. Autodesk Inventor includes parametric, direct edit and freeform modeling tools as well as multi-CAD translation capabilities and in their standard DWG drawings. Inventor uses ShapeManager, Autodesk's proprietary geometric modeling kernel. Autodesk Inventor competes directly with SolidWorks, Solid Edge, and Creo. </p>
+        <p>Official Website: <a href="https://www.autodesk.com.sg/products/inventor/overview" target="_blank">Inventor</a></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="referencesModal" tabindex="-1" role="dialog" aria-labelledby="referencesModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="referencesModalLabel">References</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" data-html="true">
+        <p>Computer-aided design, Wikipedia. [URL] <a href="https://en.wikipedia.org/wiki/Computer-aided_design">CAD</a> (access time 11.08.2021).</p>
+        <p>Computer-aided engineering, Wikipedia. [URL] <a href="https://en.wikipedia.org/wiki/Computer-aided_engineering">CAE</a>  (access time 20.08.2021).</p>
+        <p>Narayan, K. Lalit (2008). New Delhi: Prentice Hall of India. p. 3. [URL] <a href="https://books.google.com/books?id=zXdivq93WIUC">Computer Aided Design and Manufacturing</a>  (access time 21.08.2021).</p>
+        <p>Farin, Gerald; Hoschek, Josef; Kim, Myung-Soo (2002). [URL] <a href="https://books.google.com/books?id=0SV5G8fgxLoC">Handbook of computer aided geometric design</a>  (access time 21.10.2021).</p>
+        <p>BeyondMech. List of mechanical CAD softwares. [URL] <a href="https://en.wikipedia.org/wiki/Computer-aided_engineering">List of mechanical CAD softwares</a>  (access time 20.10.2021).</p>
+        <p>Saracoglu, B. O. (2006). "Identification of Technology Performance Criteria for CAD/CAM/CAE/CIM/CAL in Shipbuilding Industry". 2006 Technology Management for the Global Future - PICMET 2006 Conference. pp. 1635–1646.</p>
+        <p>Seong Wook Cho; Seung Wook Kim; Jin-Pyo Park; Sang Wook Yang; Young Choi (2011). "Engineering collaboration framework with CAE analysis data". International Journal of Precision Engineering and Manufacturing. 12.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Footer -->
 <footer class="page-footer font-small blue">
-
+    <center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#referencesModal">References</button></center>
     <div class="footer-copyright text-center py-3">УДХТУ, 122 Комп’ютерні науки, 7-КНз:
     <a href="">Радченко Дмитро Валерійович</a>
     </div>
-
 </footer>
 <!-- Footer -->
 </body>
@@ -50,7 +99,8 @@ function rebuildQuestion() {
             clicksHistory = clicksHistory + question + ' > ';
             jQuery.each(answers, function(answer, nextquestions) {
                 $('#question-0').addClass('show active');
-                $('#question-' + i).append("<button class='btn btn-quiz btn-answer w-100 text-center text-md-left mb-3 p-5' value='" + JSON.stringify(nextquestions) + "'>" + answer + '</button>')
+                let nextq = JSON.stringify(nextquestions);
+                $('#question-' + i).append('<button class="btn btn-quiz btn-answer w-100 text-center text-md-left mb-3 p-5" value="' + encodeURIComponent(nextq) + '">' + answer + '</button>')
             });
             i = i + 1;
         });
@@ -62,7 +112,7 @@ function rebuildQuestion() {
           let valeur = that.val();
           let tabActive = $('.tab-pane.show.active');
           that.animate({ color: "#ffffff" }, 1500);
-          v = JSON.parse(that.val());
+          v = JSON.parse(decodeURIComponent(that.val()));
           $('#question-container').html("");
           rebuildQuestion();
         });
@@ -70,7 +120,7 @@ function rebuildQuestion() {
         container.append('<div class="tab-pane fade" id="question-z" role="tabpanel" aria-labelledby="question-z-tab"><h5 style="text-align: center"><span>' 
             + clicksHistory.substring(0, clicksHistory.length - 3) + '</span></h5></div>');
             $('#question-z').addClass('show active');
-            $('#question-z').append('<hr><h2 class="text-center text-lobster">Result: ' + v + '</h2><br></div>');
+            $('#question-z').append('<hr><h2 class="text-center text-lobster">Result: <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#infoModal">' + v + '</button></h2><br></div>');
             $('#question-z').append('<center><a href="">Start Again</a></center>');
     }
 }

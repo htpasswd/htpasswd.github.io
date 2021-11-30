@@ -1,4 +1,4 @@
-let jsonData = {
+let jsonDataDefault = {
     "What is the task to resolve?": {
         "Designing of Objects (CAD)": {
             "What graphics do you work with?": {

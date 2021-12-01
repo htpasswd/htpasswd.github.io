@@ -17,7 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <div class="container">
-  <button type="button" class="btn btn-primary float-right mt-2 pt-2" data-toggle="modal" id="adminButton">Edit</button>
+  <button type="button" class="btn btn-primary float-right mt-2 pt-2" data-toggle="modal" id="adminButton">Administrator</button>
   <div class="row align-items-center" style="height: calc(100vh - 66px)">
     <div class="col-12">
       <div class="tab-content" id="question-container">
@@ -156,7 +156,7 @@ function rebuildQuestion() {
 }
 
 $(document).on('click', '#adminButton', function(){
-  confirmPassword();
+  confirmLogin();
   json = window.localStorage.getItem('jsonData');
   $("textarea#json-raw-text").val(json);
   visualizeJson();
@@ -178,26 +178,33 @@ $(document).on('click', "#restore", function(){
 });
 
 $(document).on('click', "#loginButton", function(){
-  window.localStorage.setItem('password', $("input#password").val());
   $('#adminLoginModal').modal('toggle');
-  confirmPassword();
+  var pass = $("input#password").val();
+  if (confirmPassword(pass) === true) {
+    window.localStorage.setItem('password', pass);
+    confirmLogin();
+  } else {
+    alert("Wrong Password");
+  }
 });
 
-function confirmPassword(){
+function confirmPassword(password){
   $("input#password").val("");
   var originalPassword = "b81d2a09d7d88d63318a33ec701be767ae9ffd942fd4a022fb9f82db4d7764da";
-  if (localStorage.getItem('password') === null) {
-    $('#adminLoginModal').modal('toggle');
+  var savedPassword = CryptoJS.SHA256(password);
+  if (savedPassword != originalPassword) {
+    return false;
   } else {
-    var savedPassword = CryptoJS.SHA256(window.localStorage.getItem('password'));
-    if (savedPassword == originalPassword) {
-      $('#adminModal').modal('toggle');
-    } else {
-      $('#adminLoginModal').modal('toggle');
-      if (localStorage.getItem('password') !== null) {
-        alert("Wrong Password");
-      }
-    }
+    return true;
+  }
+}
+
+function confirmLogin(){
+  var pass = window.localStorage.getItem('password');
+  if (confirmPassword(pass) === true) {
+    $('#adminModal').modal('toggle');
+  } else {
+    $('#adminLoginModal').modal('toggle');
   }
 }
 
